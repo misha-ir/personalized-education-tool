@@ -61,7 +61,7 @@ export function useFileController() {
         setSelectedFileId(id);
     }, []);
 
-    const selectedFile = useMemo(
+    const currentFile = useMemo(
         () => (selectedFileId ? fileObjectById[selectedFileId] ?? null : null),
         [selectedFileId, fileObjectById]
     );
@@ -72,7 +72,7 @@ export function useFileController() {
         removeFile,
         select,
         files,
-        selectedFile,
+        currentFile,
         selectedFileId,
     };
 }
