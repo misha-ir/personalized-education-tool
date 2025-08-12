@@ -1,10 +1,15 @@
-import './App.css'
+
+import Box from '@mui/material/Box'
+import UploadFileButton from '../components/UploadFileButton'
+import { useFileController } from '../controllers/useFileController'
 
 function App() {
-  return (
-    <>
+  const { addFile } = useFileController();
 
-    </>
+  return (
+    <Box>
+      <UploadFileButton fileUpload={addFile} />
+    </Box>
   )
 }
 

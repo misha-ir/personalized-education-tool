@@ -22,13 +22,18 @@ export function useFileController() {
             uploadDate: Date.now(),
             lastModified: file.lastModified,
         };
+
         setFiles((prevFiles) => [newFileMeta, ...prevFiles]);
+
         setFileObjectById((prev) => ({ ...prev, [id]: file }));
+
         setSelectedFileId(id);
+        
     }, []);
 
     const renameFile = useCallback((id: string, newName: string) => {
         newName = newName.trim();
+
         if (!id || !newName) return;
         setFiles((prevFiles) =>
             prevFiles.map((file) =>
@@ -39,13 +44,17 @@ export function useFileController() {
 
     const removeFile = useCallback((id: string) => {
         if (!id) return;
+
         setFiles((prevFiles) => prevFiles.filter((file) => file.id !== id));
+
         setFileObjectById((prev) => {
             const newState = { ...prev };
             delete newState[id];
             return newState;
         });
+
         setSelectedFileId((curr) => (curr === id ? null : curr));
+
     }, []);
 
     const select = useCallback((id: string) => {
