@@ -3,7 +3,7 @@ import { SimpleTreeView } from "@mui/x-tree-view/SimpleTreeView";
 import { TreeItem } from "@mui/x-tree-view/TreeItem";
 import type { FileMeta } from "../models/fileMeta";
 import { sortByCourse } from "../utils/sortByCourse";
-import { useMemo } from "react";
+import { useMemo, useCallback } from "react";
 
 // Props for the file tree component
 interface SidebarFileTreeProps {
@@ -22,10 +22,14 @@ export default function SidebarFileTree({
     const groupedFiles = useMemo(() => sortByCourse(files), [files]);
 
     // Handle item selection changes in tree.
-    const handleSelectedItemChange = (_event: React.SyntheticEvent | null, id: string | null) => {
-        if (!id || !id.startsWith("course:")) return;
+    const handleSelectedItemChange = useCallback(
+    (_event: React.SyntheticEvent | null, id: string | null) => {
+      if (id && !id.startsWith("course:")) {
         onSelect(id);
-    };
+      }
+    },
+    [onSelect]
+  );
 
     return (
         // Render the file tree
