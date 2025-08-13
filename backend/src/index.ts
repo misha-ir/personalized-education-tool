@@ -13,6 +13,7 @@ const MONGO_URI =
 const UPLOAD_DIR = process.env.UPLOAD_DIR || "uploads";
 const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:5173";
 
+// Connect to MongoDB and start the server
 async function start() {
     try {
         await mongoose.connect(MONGO_URI);
@@ -26,19 +27,30 @@ async function start() {
 
     app.use(cors({ origin: CORS_ORIGIN }));
     app.use(express.json());
-
-    // Serve uploaded files if you ever want direct links (optional)
     app.use(
         "/uploads",
         express.static(path.resolve(process.cwd(), UPLOAD_DIR))
     );
 
+    // Basic root endpoint for testing
+    app.get("/", (req, res) => {
+        res.json({
+            message: "Personalized Education Tool API",
+            version: "1.0.0",
+            endpoints: {
+                "GET /api/files": "List all files",
+                "POST /api/files": "Upload a file",
+                "GET /api/files/:id/content": "Get file content",
+                "DELETE /api/files/:id": "Delete a file",
+            },
+        });
+    });
+
     app.use("/api/files", filesRouter);
 
-    // Minimal error handler
     app.use((err: any, _req: any, res: any, _next: any) => {
         console.error("[error]", err);
-        res.status(400).json({ error: err?.message || "Request failed" });
+        res.status(500).json({ error: err?.message || "Request failed" });
     });
 
     app.listen(PORT, () => {

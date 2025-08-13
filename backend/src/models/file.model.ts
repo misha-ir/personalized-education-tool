@@ -6,6 +6,7 @@ const FileSchema = new Schema({
   size:         { type: Number, required: true },
   mimeType:     { type: String, required: true },
   path:         { type: String, required: true },
+  course:       { type: String, required: true },
 }, { timestamps: true });
 
 export type FileDoc = InferSchemaType<typeof FileSchema> & { _id: string };
