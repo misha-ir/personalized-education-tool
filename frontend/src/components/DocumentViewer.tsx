@@ -1,30 +1,18 @@
-// DocumentViewer.tsx
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Box, Button } from "@mui/material";
 import { Document, Page } from "react-pdf";
 
 interface DocumentViewerProps {
-    file: File | null;
+    fileUrl: string | null;
 }
 
-export default function DocumentViewer({ file }: DocumentViewerProps) {
+export default function DocumentViewer({ fileUrl }: DocumentViewerProps) {
     const [numPages, setNumPages] = useState(0);
     const [page, setPage] = useState(1);
     const [containerWidth, setContainerWidth] = useState<number>(600);
     const containerRef = useRef<HTMLDivElement | null>(null);
 
-    // Object URL for the File
-    const fileUrl = useMemo(
-        () => (file ? URL.createObjectURL(file) : null),
-        [file]
-    );
-    useEffect(
-        () => () => {
-            if (fileUrl) URL.revokeObjectURL(fileUrl);
-        },
-        [fileUrl]
-    );
-
+    // Update container width on resize
     useEffect(() => {
         const el = containerRef.current;
         if (!el) return;
@@ -42,7 +30,8 @@ export default function DocumentViewer({ file }: DocumentViewerProps) {
         return () => ro.disconnect();
     }, []);
 
-    if (!file) {
+    // No file selected
+    if (!fileUrl) {
         return (
             <Box className="flex h-full items-center justify-center text-gray-500">
                 Select a PDF file to view
@@ -50,6 +39,7 @@ export default function DocumentViewer({ file }: DocumentViewerProps) {
         );
     }
 
+    // Render the PDF viewer
     return (
         <Box className="flex h-full flex-col overflow-hidden">
             <Box className="flex items-center justify-between border-b bg-gray-100 p-2 text-sm">

@@ -12,6 +12,7 @@ interface SidebarProps {
     selectedId: string | null;
     onSelect: (id: string) => void;
     fileUpload: (file: File, course?: string) => void;
+    onRemove?: (id: string) => void;
     className?: string;
 }
 
@@ -20,6 +21,7 @@ export default function Sidebar({
     onSelect,
     selectedId,
     fileUpload,
+    onRemove,
     className = "",
 }: SidebarProps) {
     // State for course input option
@@ -72,6 +74,7 @@ export default function Sidebar({
                     files={files}
                     onSelect={onSelect}
                     selectedId={selectedId}
+                    onRemove={onRemove}
                 />
             </Box>
         </Stack>

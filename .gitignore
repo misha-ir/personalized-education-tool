@@ -31,6 +31,7 @@ lerna-debug.log*
 /backend/node_modules/
 /backend/build/
 /backend/uploads/
+/backend/mongo-data/
 /backend/*.local
 /backend/.env
 /backend/.env.*
